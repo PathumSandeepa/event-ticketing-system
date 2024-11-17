@@ -1,0 +1,26 @@
+{
+  "vendors": [
+    { "id": "vendor1", "name": "Vendor A" },
+    { "id": "vendor2", "name": "Vendor B" },
+    { "id": "vendor3", "name": "Vendor C" },
+    { "id": "vendor4", "name": "Vendor D" },
+    { "id": "vendor5", "name": "Vendor E" },
+    { "id": "vendor6", "name": "Vendor F" },
+    { "id": "vendor7", "name": "Vendor G" },
+    { "id": "vendor8", "name": "Vendor H" },
+    { "id": "vendor9", "name": "Vendor I" },
+    { "id": "vendor10", "name": "Vendor J" }
+  ],
+  "customers": [
+    { "id": "customer1", "name": "Customer X" },
+    { "id": "customer2", "name": "Customer Y" },
+    { "id": "customer3", "name": "Customer Z" },
+    { "id": "customer4", "name": "Customer W" },
+    { "id": "customer5", "name": "Customer V" },
+    { "id": "customer6", "name": "Customer U" },
+    { "id": "customer7", "name": "Customer T" },
+    { "id": "customer8", "name": "Customer S" },
+    { "id": "customer9", "name": "Customer R" },
+    { "id": "customer10", "name": "Customer Q" }
+  ]
+}
