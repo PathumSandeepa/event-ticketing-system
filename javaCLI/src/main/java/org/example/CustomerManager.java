@@ -51,10 +51,10 @@ public class CustomerManager implements Manager {
                     }
                 }
 
-                System.out.println("Ticket pool is empty, pool count is: " + ticketPool.getTicketCount());
+                Logger.log("Ticket pool is empty, pool count is: " + ticketPool.getTicketCount());
                 ticketPool.notifyAll();
             }
         }
-        System.out.println("Max ticket capacity reached. Customers stopped purchasing tickets.");
+        Logger.log("Max ticket capacity reached. Customers stopped purchasing tickets.");
     }
 }

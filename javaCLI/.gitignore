@@ -3,6 +3,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+.src\main\resources\system-config.json and loggers.txt
+
+# Ignore system-config.json
+src/main/resources/system-config.json
+src/main/resources/loggers.txt
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml

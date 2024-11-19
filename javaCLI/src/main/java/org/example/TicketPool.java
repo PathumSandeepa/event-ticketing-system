@@ -20,7 +20,7 @@ public class TicketPool {
 
     public synchronized void purchaseTickets(String customerName, int ticketsToBuy) {
         ticketCount -= ticketsToBuy;
-        System.out.println(customerName + " purchased " + ticketsToBuy + " Tickets from the pool");
+        Logger.log(customerName + " purchased " + ticketsToBuy + " Tickets from the pool");
     }
 
     public synchronized boolean isMaxCapacityReached() {
