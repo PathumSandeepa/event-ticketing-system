@@ -54,7 +54,7 @@ public class VendorManager implements Manager {
 
                     int ticketsActuallyAdded = ticketPool.addTickets(ticketsToAdd);
                     ticketsAdded += ticketsActuallyAdded;
-                    System.out.println(vendor.getId() + " Vendor added " + ticketsActuallyAdded + " tickets to the pool");
+                    Logger.log(vendor.getId() + " Vendor added " + ticketsActuallyAdded + " tickets to the pool");
                     Thread.sleep(ticketReleaseRate);
 
                     if (ticketPool.isPoolFull() || ticketPool.isMaxCapacityReached()) {
@@ -62,10 +62,10 @@ public class VendorManager implements Manager {
                     }
                 }
 
-                System.out.println("Ticket pool is full, ticket count is: " + ticketPool.getTicketCount());
+                Logger.log("Ticket pool is full, ticket count is: " + ticketPool.getTicketCount());
                 ticketPool.notifyAll();
             }
         }
-        System.out.println("Max ticket capacity reached. Vendors stopped adding tickets.");
+        Logger.log("Max ticket capacity reached. Vendors stopped adding tickets.");
     }
 }
