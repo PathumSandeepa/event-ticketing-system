@@ -23,6 +23,9 @@ public class Customer implements Serializable {
     @Column(name = "address", length = 255)
     private String address;
 
+    @Column(nullable = false)
+    private String password;
+
     // Default constructor
     public Customer() {
     }
@@ -74,6 +77,14 @@ public class Customer implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     // toString method for easy debugging

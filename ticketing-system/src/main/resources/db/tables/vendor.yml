@@ -24,7 +24,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: contact_number
+                  name: phone
                   type: VARCHAR(15)
                   constraints:
                     nullable: false
@@ -33,3 +33,8 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: true
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false      
