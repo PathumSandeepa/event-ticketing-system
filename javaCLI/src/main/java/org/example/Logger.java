@@ -10,7 +10,7 @@ public class Logger {
 
     static {
         try {
-            //create file and write file in append mode
+            // create file and write file in append mode
             writer = new BufferedWriter(new FileWriter(LOG_FILE, true));
         } catch (IOException e) {
             System.err.println("Failed to initialize logger: " + e.getMessage());
