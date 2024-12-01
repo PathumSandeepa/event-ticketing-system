@@ -6,8 +6,6 @@ public class Config {
     private int ticketReleaseRate;
     private int customerRetrievalRate;
 
-    public Config() {}
-
     public Config(int maxTicketCapacity, int totalTickets, int ticketReleaseRate, int customerRetrievalRate) {
         this.maxTicketCapacity = maxTicketCapacity;
         this.totalTickets = totalTickets;

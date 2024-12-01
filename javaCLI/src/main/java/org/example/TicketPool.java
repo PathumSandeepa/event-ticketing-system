@@ -1,50 +1,78 @@
 package org.example;
 
 public class TicketPool {
-    private int ticketCount;
-    private int maxTicketCapacity;
-    private final int initialTicketCount;
+    private final int poolCapacity;
+    private final int maxTicketCapacity;
+    private int currentTickets = 0;
+    private int ticketsAdded = 0;
+    private boolean isMaxCapacityReached = false;
+    private boolean hasPrintedSoldOutMessage = false;
 
-    public TicketPool(int totalTickets, int maxTicketCapacity) {
-        this.ticketCount = 0;
-        this.initialTicketCount = totalTickets;
+    public TicketPool(int poolCapacity, int maxTicketCapacity) {
+        this.poolCapacity = poolCapacity;
         this.maxTicketCapacity = maxTicketCapacity;
     }
 
-    public synchronized int addTickets(int ticketsToAdd) {
-        int ticketsAllowed = Math.min(ticketsToAdd, maxTicketCapacity);
-        ticketCount += ticketsAllowed;
-        maxTicketCapacity -= ticketsAllowed;
-        return ticketsAllowed;
+    public synchronized void addTicket(int vendorId) {
+        while (currentTickets >= poolCapacity) {
+            if (ticketsAdded >= maxTicketCapacity) {
+                isMaxCapacityReached = true;
+                notifyAll();
+                return;
+            }
+            try {
+                Logger.log("Vendor " + vendorId + " is waiting as pool is full.");
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+
+        if (ticketsAdded >= maxTicketCapacity) {
+            isMaxCapacityReached = true;
+            Logger.log("Max ticket capacity is reached and vendors stop adding tickets.");
+            notifyAll();
+            return;
+        }
+
+        currentTickets++;
+        ticketsAdded++;
+        Logger.log("Vendor " + vendorId + " added 1 ticket using " + Thread.currentThread().getName());
+        notifyAll();
     }
 
-    public synchronized void purchaseTickets(String customerName, int ticketsToBuy) {
-        ticketCount -= ticketsToBuy;
-        Logger.log(customerName + " purchased " + ticketsToBuy + " Tickets from the pool");
+    public synchronized void removeTicket(int customerId) {
+        while (currentTickets <= 0) {
+            if (isMaxCapacityReached && !hasPrintedSoldOutMessage) {
+                hasPrintedSoldOutMessage = true;
+                Logger.log("Max ticket capacity is reached. All tickets are sold out.");
+                notifyAll();
+                return;
+            }
+            try {
+                Logger.log("Customer " + customerId + " is waiting as pool is empty.");
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+
+        currentTickets--;
+        Logger.log("Customer " + customerId + " purchased 1 ticket using " + Thread.currentThread().getName());
+        notifyAll();
     }
 
     public synchronized boolean isMaxCapacityReached() {
-        return maxTicketCapacity <= 0;
+        return isMaxCapacityReached;
     }
 
-    public synchronized boolean isPoolFull() {
-        return ticketCount >= initialTicketCount || maxTicketCapacity <= 0;
+    public synchronized int getCurrentTickets() {
+        return currentTickets;
     }
 
-    public synchronized boolean isPoolEmpty() {
-        return ticketCount <= 0;
-    }
-
-    // Getters
-    public int getTicketCount() {
-        return ticketCount;
-    }
-
-    public int getInitialTicketCount() {
-        return initialTicketCount;
-    }
-
-    public int getRemainingCapacity() {
-        return maxTicketCapacity;
+    public int getPoolCapacity() {
+        return poolCapacity;
     }
 }
