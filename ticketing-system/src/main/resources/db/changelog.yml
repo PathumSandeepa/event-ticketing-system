@@ -3,3 +3,5 @@ databaseChangeLog:
       file: "classpath:db/tables/vendor.yml"
   - include:
       file: "classpath:db/tables/customer.yml"
+  - include:
+      file: "classpath:db/tables/user.yml"

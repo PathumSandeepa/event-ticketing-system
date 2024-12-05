@@ -12,14 +12,14 @@ import com.backend.ticketing_system.service.CustomerService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api/customer")
 @Validated
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping("/signup")
+    @PostMapping("/signUp")
     public ResponseEntity<String> registerCustomer(@Valid @RequestBody CustomerRegistrationDto registrationDto) {
         Customer existingCustomer = customerService.authenticateCustomer(registrationDto.getEmail(), registrationDto.getPassword());
         if (existingCustomer != null) {
@@ -29,7 +29,7 @@ public class CustomerController {
         return ResponseEntity.ok("Customer registered successfully");
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/signIn")
     public ResponseEntity<String> authenticateCustomer(@Valid @RequestBody CustomerLoginDto loginDto) {
         Customer customer = customerService.authenticateCustomer(loginDto.getEmail(), loginDto.getPassword());
         if (customer != null) {
