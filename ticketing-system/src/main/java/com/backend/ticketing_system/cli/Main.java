@@ -1,8 +1,10 @@
 // Main.java
 package com.backend.ticketing_system.cli;
+
 import com.backend.ticketing_system.model.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -152,8 +154,7 @@ public class Main {
         scanner.close();
     }
 
-    private static void saveConfig(int maxTicketCapacity, int totalTickets, int ticketReleaseRate,
-            int customerRetrievalRate) {
+    private static void saveConfig(int maxTicketCapacity, int totalTickets, int ticketReleaseRate, int customerRetrievalRate) {
         Config config = new Config(maxTicketCapacity, totalTickets, ticketReleaseRate, customerRetrievalRate);
         ObjectMapper mapper = new ObjectMapper();
         try {

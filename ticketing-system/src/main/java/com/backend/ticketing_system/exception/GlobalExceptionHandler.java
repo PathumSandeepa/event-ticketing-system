@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleAllExceptions(Exception ex){
+    public ResponseEntity<?> handleAllExceptions(Exception ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
