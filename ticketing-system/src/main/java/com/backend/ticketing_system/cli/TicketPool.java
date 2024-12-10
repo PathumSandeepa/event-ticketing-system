@@ -38,7 +38,7 @@ public class TicketPool {
 
         currentTickets++;
         ticketsAdded++;
-        Logger.log("Vendor " + vendorId + " added 1 ticket using " + Thread.currentThread().getName());
+        Logger.log("Vendor " + vendorId + " added 1 ticket using #" + Thread.currentThread().getName() + " Thread.");
         notifyAll();
     }
 
@@ -60,7 +60,7 @@ public class TicketPool {
         }
 
         currentTickets--;
-        Logger.log("Customer " + customerId + " purchased 1 ticket using " + Thread.currentThread().getName());
+        Logger.log("Customer " + customerId + " purchased 1 ticket using #" + Thread.currentThread().getName()  + " Thread.");
         notifyAll();
     }
 
