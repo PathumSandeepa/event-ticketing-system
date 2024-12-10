@@ -1,5 +1,7 @@
 package com.backend.ticketing_system.cli;
 
+import com.backend.ticketing_system.websocket.LogWebSocketHandler;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +12,6 @@ public class Logger {
 
     static {
         try {
-            // create file and write file in append mode
             writer = new BufferedWriter(new FileWriter(LOG_FILE, true));
         } catch (IOException e) {
             System.err.println("Failed to initialize logger: " + e.getMessage());
@@ -19,10 +20,8 @@ public class Logger {
     }
 
     public static synchronized void log(String message) {
-        // Print to terminal message
         System.out.println(message);
 
-        // Write to log file
         try {
             writer.write(message);
             writer.newLine();
@@ -31,5 +30,15 @@ public class Logger {
             System.err.println("Failed to write log message: " + e.getMessage());
             e.printStackTrace();
         }
+
+        // Send log message to WebSocket clients if running in Spring Boot mode
+        if (isSpringBootMode()) {
+            LogWebSocketHandler.broadcast(message);
+        }
+    }
+
+    private static boolean isSpringBootMode() {
+        // Implement logic to check if running in Spring Boot mode
+        return true; // Placeholder, replace with actual logic
     }
 }
