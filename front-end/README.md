@@ -1,59 +1,175 @@
-# FrontEnd
+# Real-Time Event Ticketing System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.4.
+This repository contains a **Real-Time Event Ticketing System** built using Angular, Spring Boot, Core Java (JDK 17), and MySQL. The project includes a frontend Angular application, a backend Spring Boot service, and a CLI application for command-line interactions. The CLI application can operate as a standalone tool or as part of the Spring Boot application.
 
-## Development server
+---
 
-To start a local development server, run:
+## Project Structure
 
-```bash
-ng serve
+```
+event-ticketing-system/
+|
+├── front-end/       # Frontend (Angular)
+├── ticketing-system/ # Backend (Spring Boot) / Command-Line Interface (Core Java)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Technologies Used
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Frontend:
+
+- **Angular** with TypeScript, HTML, CSS
+- **Tailwind CSS**
+
+### Backend:
+
+- **Spring Boot** (version 3.3.5)
+- **Core Java** (JDK 17)
+
+### Database:
+
+- **MySQL**
+
+---
+
+## Prerequisites
+
+Ensure you have the following installed on your system:
+
+### Frontend:
+
+- Node.js: v20.18.0
+- npm: v10.9.2
+- Angular CLI: v19.0.4
+
+### Backend:
+
+- Java Development Kit (JDK): 17
+- Maven: Latest version
+- MySQL Database: Ensure a running MySQL instance.
+
+---
+
+## How to Run the Project
+
+### Step 1: Clone the Repository
 
 ```bash
-ng generate component component-name
+git clone https://github.com/PathumSandeepa/event-ticketing-system.git
+cd event-ticketing-system
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Step 2: Run the Angular Frontend
 
-```bash
-ng generate --help
-```
+1. Navigate to the `front-end/` directory:
 
-## Building
+   ```bash
+   cd front-end
+   ```
 
-To build the project run:
+2. Install dependencies:
 
-```bash
-ng build
-```
+   ```bash
+   npm install
+   ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+3. Start the development server:
 
-## Running unit tests
+   ```bash
+   npm start
+   ```
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+4. Open your browser and navigate to `http://localhost:4200` to access the application.
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+### Step 3: Set Up the MySQL Database
 
-For end-to-end (e2e) testing, run:
+1. Create a MySQL database named `ticketing_system`.
+2. Update the database credentials in the Spring Boot application (`application.yml`):
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/ticketing_system
+   spring.datasource.username=<your-username>
+   spring.datasource.password=<your-password>
+   ```
 
-```bash
-ng e2e
-```
+---
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Step 4: Run the Spring Boot Backend
 
-## Additional Resources
+1. Navigate to the `ticketing-system/` directory:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+   ```bash
+   cd ../ticketing-system
+   ```
+
+2. Build the project using Maven:
+
+   ```bash
+   mvn clean install
+   ```
+
+3. Run the Spring Boot application:
+
+   ```bash
+   mvn spring-boot:run
+   ```
+
+The backend server will start at `http://localhost:8080`.
+
+---
+
+### Step 5: Run the CLI Application (Optional)
+
+1. Navigate to the CLI directory:
+
+   ```bash
+   cd src/main/java/com/backend/ticketing_system/cli
+   ```
+
+2. Compile and run the CLI application using JDK 17:
+
+   ```bash
+   javac *.java
+   java CLI
+   ```
+
+Note: When running the Spring Boot application, the CLI works as part of the backend.
+
+---
+
+## Key Features
+
+- **Frontend:**
+
+  - Angular-based UI for ticketing operations.
+  - Tailwind CSS for responsive design.
+
+- **Backend:**
+
+  - REST API and web socket using Spring Boot.
+  - Command-Line Interface (CLI) for standalone ticket management.
+
+- **Database:**
+
+  - MySQL integration for configaration storage.
+
+---
+
+## License
+
+This project does not use any specific license.
+
+---
+
+## Contributions
+
+Contributions are welcome! Feel free to fork the repository and submit a pull request.
+
+---
+
+## Author
+
+**Pathum Sandeepa**
+
