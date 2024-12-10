@@ -8,4 +8,12 @@
       Stop
     </button>
   </div>
+  <div class="mt-6 w-full max-w-md">
+    <div class="bg-white shadow-md rounded p-4">
+      <h2 class="text-xl font-bold mb-4">Logs</h2>
+      <ul class="list-disc pl-5">
+        <li *ngFor="let log of logs">{{ log }}</li>
+      </ul>
+    </div>
+  </div>
 </div>

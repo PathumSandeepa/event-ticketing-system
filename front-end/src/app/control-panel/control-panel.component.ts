@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { CommonModule } from '@angular/common';
+import { LogWebSocketService } from './log-websocket.service';
 
 @Component({
   selector: 'app-control-panel',
@@ -9,7 +10,17 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule]
 })
-export class ControlPanelComponent {
+export class ControlPanelComponent implements OnInit {
+  logs: string[] = [];
+
+  constructor(private logWebSocketService: LogWebSocketService) {}
+
+  ngOnInit() {
+    this.logWebSocketService.getMessages().subscribe((message) => {
+      this.logs.push(message);
+    });
+  }
+
   start() {
     axios.get('http://localhost:8080/api/configurations/yes')
       .then(response => {
