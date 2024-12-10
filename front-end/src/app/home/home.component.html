@@ -1,0 +1,206 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+    <form [formGroup]="configForm" (ngSubmit)="onSubmit()">
+      <!-- Max Ticket Capacity -->
+      <div class="mb-4">
+        <label class="block text-gray-700">Enter Max ticket capacity</label>
+        <input
+          formControlName="maxTicketCapacity"
+          type="text"
+          class="w-full mt-2 p-2 border rounded"
+        />
+        <div
+          *ngIf="
+            configForm.controls['maxTicketCapacity'].invalid &&
+            (configForm.controls['maxTicketCapacity'].dirty ||
+              configForm.controls['maxTicketCapacity'].touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          <div
+            *ngIf="configForm.controls['maxTicketCapacity'].errors?.['required']"
+          >
+            This field is required.
+          </div>
+          <div
+            *ngIf="configForm.controls['maxTicketCapacity'].errors?.['pattern']"
+          >
+            Please enter a valid number.
+          </div>
+          <div
+            *ngIf="configForm.controls['maxTicketCapacity'].errors?.['maxNotGreaterThanTotal']"
+          >
+            Max ticket capacity should be greater than Total ticket capacity.
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Ticket Capacity -->
+      <div class="mb-4">
+        <label class="block text-gray-700">Enter Total ticket capacity</label>
+        <input
+          formControlName="totalTicketCapacity"
+          type="text"
+          class="w-full mt-2 p-2 border rounded"
+        />
+        <div
+          *ngIf="
+            configForm.controls['totalTicketCapacity'].invalid &&
+            (configForm.controls['totalTicketCapacity'].dirty ||
+              configForm.controls['totalTicketCapacity'].touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          <div
+            *ngIf="configForm.controls['totalTicketCapacity'].errors?.['required']"
+          >
+            This field is required.
+          </div>
+          <div
+            *ngIf="configForm.controls['totalTicketCapacity'].errors?.['pattern']"
+          >
+            Please enter a valid number.
+          </div>
+        </div>
+      </div>
+
+      <!-- Ticket Release Rate -->
+      <div class="mb-4">
+        <label class="block text-gray-700"
+          >Enter Ticket release rate (In seconds)</label
+        >
+        <input
+          formControlName="ticketReleaseRate"
+          type="text"
+          class="w-full mt-2 p-2 border rounded"
+        />
+        <div
+          *ngIf="
+            configForm.controls['ticketReleaseRate'].invalid &&
+            (configForm.controls['ticketReleaseRate'].dirty ||
+              configForm.controls['ticketReleaseRate'].touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          <div
+            *ngIf="configForm.controls['ticketReleaseRate'].errors?.['required']"
+          >
+            This field is required.
+          </div>
+          <div
+            *ngIf="configForm.controls['ticketReleaseRate'].errors?.['pattern']"
+          >
+            Please enter a valid number.
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Retrieval Rate -->
+      <div class="mb-4">
+        <label class="block text-gray-700"
+          >Enter customer retrieval release rate (In seconds)</label
+        >
+        <input
+          formControlName="customerRetrievalRate"
+          type="text"
+          class="w-full mt-2 p-2 border rounded"
+        />
+        <div
+          *ngIf="
+            configForm.controls['customerRetrievalRate'].invalid &&
+            (configForm.controls['customerRetrievalRate'].dirty ||
+              configForm.controls['customerRetrievalRate'].touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          <div
+            *ngIf="configForm.controls['customerRetrievalRate'].errors?.['required']"
+          >
+            This field is required.
+          </div>
+          <div
+            *ngIf="configForm.controls['customerRetrievalRate'].errors?.['pattern']"
+          >
+            Please enter a valid number.
+          </div>
+        </div>
+      </div>
+
+      <!-- Vendor Count -->
+      <div class="mb-4">
+        <label class="block text-gray-700">Enter vendor count</label>
+        <input
+          formControlName="vendorCount"
+          type="text"
+          class="w-full mt-2 p-2 border rounded"
+        />
+        <div
+          *ngIf="
+            configForm.controls['vendorCount'].invalid &&
+            (configForm.controls['vendorCount'].dirty ||
+              configForm.controls['vendorCount'].touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          <div *ngIf="configForm.controls['vendorCount'].errors?.['required']">
+            This field is required.
+          </div>
+          <div *ngIf="configForm.controls['vendorCount'].errors?.['pattern']">
+            Please enter a valid number.
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Count -->
+      <div class="mb-4">
+        <label class="block text-gray-700">Enter customer count</label>
+        <input
+          formControlName="customerCount"
+          type="text"
+          class="w-full mt-2 p-2 border rounded"
+        />
+        <div
+          *ngIf="
+            configForm.controls['customerCount'].invalid &&
+            (configForm.controls['customerCount'].dirty ||
+              configForm.controls['customerCount'].touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          <div
+            *ngIf="configForm.controls['customerCount'].errors?.['required']"
+          >
+            This field is required.
+          </div>
+          <div *ngIf="configForm.controls['customerCount'].errors?.['pattern']">
+            Please enter a valid number.
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between mt-6">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+          Submit
+        </button>
+        <button
+          type="button"
+          (click)="onReset()"
+          class="bg-gray-500 text-white px-4 py-2 rounded"
+        >
+          Reset
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-4 items-center">
+      <button
+        type="button"
+        class="bg-green-500 text-white px-4 py-2 rounded"
+        (click)="navigateToControlPanel()"
+      >
+        Control Panel
+      </button>
+    </div>
+  </div>
+</div>
