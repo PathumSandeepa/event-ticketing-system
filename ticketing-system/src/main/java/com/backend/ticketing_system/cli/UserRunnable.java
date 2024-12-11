@@ -1,14 +1,18 @@
 package com.backend.ticketing_system.cli;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public abstract class UserRunnable implements Runnable {
     protected final int id;
     protected final TicketPool ticketPool;
     protected final int activityRate;
+    protected final AtomicBoolean isRunning;
 
-    public UserRunnable(int id, TicketPool ticketPool, int activityRate) {
+    public UserRunnable(int id, TicketPool ticketPool, int activityRate, AtomicBoolean isRunning) {
         this.id = id;
         this.ticketPool = ticketPool;
         this.activityRate = activityRate;
+        this.isRunning = isRunning;
     }
 
     protected abstract void performAction();
@@ -19,7 +23,7 @@ public abstract class UserRunnable implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (isRunning.get()) {
             if (shouldTerminate()) {
                 break;
             }
