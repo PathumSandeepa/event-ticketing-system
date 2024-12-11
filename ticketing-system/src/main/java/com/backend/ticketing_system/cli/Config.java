@@ -1,11 +1,15 @@
 package com.backend.ticketing_system.cli;
 
+// oop concepts used: encapsulation
+// This class represents the configuration of the ticketing system
+// It contains the maximum ticket capacity, total number of tickets, ticket release rate, and customer retrieval rate
 public class Config {
     private int maxTicketCapacity;
     private int totalTickets;
     private int ticketReleaseRate;
     private int customerRetrievalRate;
 
+    // Constructor to initialize the configuration parameters
     public Config(int maxTicketCapacity, int totalTickets, int ticketReleaseRate, int customerRetrievalRate) {
         this.maxTicketCapacity = maxTicketCapacity;
         this.totalTickets = totalTickets;

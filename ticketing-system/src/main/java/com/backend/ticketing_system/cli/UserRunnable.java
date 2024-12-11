@@ -2,6 +2,8 @@ package com.backend.ticketing_system.cli;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+// This class represents a user thread that interacts with the ticket pool
+// oop concepts used: Encapsulation, Inheritance, Polymorphism
 public abstract class UserRunnable implements Runnable {
     protected final int id;
     protected final TicketPool ticketPool;
@@ -15,12 +17,17 @@ public abstract class UserRunnable implements Runnable {
         this.isRunning = isRunning;
     }
 
+    // This method performs the action of the user thread
     protected abstract void performAction();
 
+    // This method checks if the user should terminate
     protected abstract boolean shouldTerminate();
 
+    // This method returns the user type for logging purposes
     protected abstract String getUserType();
 
+    // This method runs the user thread and performs the action at a certain rate
+    // It also checks if the user should terminate
     @Override
     public void run() {
         while (isRunning.get()) {
