@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+// This class represents the Configuration entity in the ticketing system
+//oop concepts used: abstraction, encapsulation
+// The Configuration entity stores the configuration settings for the ticketing system
 @Entity
 @Table(name = "configuration")
 public class Configuration {
@@ -36,7 +39,6 @@ public class Configuration {
     @Min(value = 1, message = "Customer count must be greater than 0")
     private int customerCount;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

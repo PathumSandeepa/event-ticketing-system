@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+// This class contains the main method to start the ticketing system
+//oop concepts used: encapsulation, composition, exception handling
 public class Main {
     private static AtomicBoolean isRunning = new AtomicBoolean(true);
     private static List<Thread> mainThreads;
@@ -137,6 +139,7 @@ public class Main {
         // Save configuration to JSON file
         saveConfig(maxTicketCapacity, totalTickets, ticketReleaseRate, customerRetrievalRate);
 
+        // Create a configuration object with the user-provided values (API call)
         Configuration configuration = new Configuration();
         configuration.setTotalTickets(totalTickets);
         configuration.setTicketReleaseRate(ticketReleaseRate);
@@ -185,6 +188,7 @@ public class Main {
         Logger.log("Program terminated.");
     }
 
+    // This method saves the configuration to a JSON file
     private static void saveConfig(int maxTicketCapacity, int totalTickets, int ticketReleaseRate, int customerRetrievalRate) {
         Config config = new Config(maxTicketCapacity, totalTickets, ticketReleaseRate, customerRetrievalRate);
         ObjectMapper mapper = new ObjectMapper();
@@ -196,13 +200,15 @@ public class Main {
         }
     }
 
+    // This method starts the ticket system with the given configuration parameters.
+    // It creates vendor and customer threads based on the configuration.
+    // The ticket pool is initialized with the total number of tickets and the maximum ticket capacity.
     public static void startTicketSystem(Configuration configuration) {
         // Initialize the ticket pool
         TicketPool ticketPool = new TicketPool(configuration.getTotalTickets(), configuration.getMaxTicketCapacity());
 
         List<Thread> threads = new ArrayList<>();
 
-        // Start vendor threads
         for (int i = 1; i <= configuration.getVendorCount(); i++) {
             VendorRunnable vendor = new VendorRunnable(i, ticketPool, configuration.getTicketReleaseRate(), isRunning);
             Thread vendorThread = new Thread(vendor, "Vendor-" + i);
@@ -210,7 +216,6 @@ public class Main {
             threads.add(vendorThread);
         }
 
-        // Start customer threads
         for (int i = 1; i <= configuration.getCustomerCount(); i++) {
             CustomerRunnable customer = new CustomerRunnable(i, ticketPool, configuration.getCustomerRetrievalRate(), isRunning);
             Thread customerThread = new Thread(customer, "Customer-" + i);
