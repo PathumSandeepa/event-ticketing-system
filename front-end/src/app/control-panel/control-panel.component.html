@@ -1,18 +1,29 @@
 <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
   <h1 class="text-3xl font-bold mb-6">Control Panel</h1>
   <div class="flex space-x-4">
-    <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded" (click)="start()">
+    <button
+      class="bg-green-500 text-white px-6 py-3 rounded shadow-lg transform transition duration-300 ease-in-out hover:bg-green-600 hover:scale-105"
+      (click)="start()"
+    >
       Start
     </button>
-    <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded" (click)="stop()">
+    <button
+      class="bg-red-500 text-white px-6 py-3 rounded shadow-lg transform transition duration-300 ease-in-out hover:bg-red-600 hover:scale-105"
+      (click)="stop()"
+    >
       Stop
     </button>
   </div>
   <div class="mt-6 w-full max-w-md">
-    <div class="bg-white shadow-md rounded p-4">
-      <h2 class="text-xl font-bold mb-4">Logs</h2>
-      <ul class="list-disc pl-5">
-        <li *ngFor="let log of logs">{{ log }}</li>
+    <div class="bg-white shadow-xl rounded p-4">
+      <h2 class="text-xl font-bold mb-4">Status</h2>
+      <ul class="space-y-2 max-h-64 overflow-y-auto">
+        <li
+          *ngFor="let log of logs"
+          class="bg-gray-50 p-2 rounded shadow-sm transform transition duration-300 hover:bg-gray-100"
+        >
+          {{ log }}
+        </li>
       </ul>
     </div>
   </div>
