@@ -1,16 +1,17 @@
-// Main.java
 package com.backend.ticketing_system.cli;
 
 import com.backend.ticketing_system.model.Configuration;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
-import java.util.InputMismatchException;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main {
+    private static AtomicBoolean isRunning = new AtomicBoolean(true);
+    private static List<Thread> mainThreads;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -19,14 +20,14 @@ public class Main {
             try {
                 System.out.print("Enter Max Ticket Capacity: ");
                 maxTicketCapacity = scanner.nextInt();
-                scanner.nextLine(); // Consume leftover newline
+                scanner.nextLine(); // Consume newline
                 if (maxTicketCapacity <= 0) {
-                    System.out.println("Invalid input. Please enter a positive integer.");
+                    System.out.println("Max Ticket Capacity must be positive.");
                     continue;
                 }
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a positive integer for Max Ticket Capacity.");
+                System.out.println("Invalid input. Please enter a positive integer.");
                 scanner.next(); // Clear invalid input
             }
         }
@@ -36,18 +37,14 @@ public class Main {
             try {
                 System.out.print("Enter Total Tickets: ");
                 totalTickets = scanner.nextInt();
-                scanner.nextLine(); // Consume leftover newline
-                if (totalTickets <= 0) {
-                    System.out.println("Invalid input. Please enter a positive integer.");
-                    continue;
-                }
-                if (totalTickets > maxTicketCapacity) {
-                    System.out.println("Total Tickets cannot exceed Max Ticket Capacity.");
+                scanner.nextLine(); // Consume newline
+                if (totalTickets <= 0 || totalTickets >= maxTicketCapacity) {
+                    System.out.println("Total Tickets must be positive and less than Max Ticket Capacity.");
                     continue;
                 }
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a positive integer for Total Tickets.");
+                System.out.println("Invalid input. Please enter a positive integer less than Max Ticket Capacity.");
                 scanner.next(); // Clear invalid input
             }
         }
@@ -57,15 +54,15 @@ public class Main {
             try {
                 System.out.print("Enter Ticket Release Rate (seconds): ");
                 ticketReleaseRate = scanner.nextInt();
-                scanner.nextLine(); // Consume leftover newline
+                scanner.nextLine(); // Consume newline
                 if (ticketReleaseRate <= 0) {
-                    System.out.println("Invalid input. Please enter a positive integer.");
+                    System.out.println("Ticket Release Rate must be positive.");
                     continue;
                 }
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a positive integer for Ticket Release Rate.");
-                scanner.next(); // Clear invalid input
+                System.out.println("Invalid input. Please enter a positive integer.");
+                scanner.next();
             }
         }
 
@@ -74,49 +71,49 @@ public class Main {
             try {
                 System.out.print("Enter Customer Retrieval Rate (seconds): ");
                 customerRetrievalRate = scanner.nextInt();
-                scanner.nextLine(); // Consume leftover newline
+                scanner.nextLine(); // Consume newline
                 if (customerRetrievalRate <= 0) {
-                    System.out.println("Invalid input. Please enter a positive integer.");
+                    System.out.println("Customer Retrieval Rate must be positive.");
                     continue;
                 }
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a positive integer for Customer Retrieval Rate.");
-                scanner.next(); // Clear invalid input
+                System.out.println("Invalid input. Please enter a positive integer.");
+                scanner.next();
             }
         }
 
         int vendorCount = 0;
         while (true) {
             try {
-                System.out.print("Enter number of Vendors: ");
+                System.out.print("Enter Vendor Count: ");
                 vendorCount = scanner.nextInt();
-                scanner.nextLine(); // Consume leftover newline
+                scanner.nextLine(); // Consume newline
                 if (vendorCount <= 0) {
-                    System.out.println("Invalid input. Please enter a positive integer.");
+                    System.out.println("Vendor Count must be positive.");
                     continue;
                 }
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a positive integer for number of Vendors.");
-                scanner.next(); // Clear invalid input
+                System.out.println("Invalid input. Please enter a positive integer.");
+                scanner.next();
             }
         }
 
         int customerCount = 0;
         while (true) {
             try {
-                System.out.print("Enter number of Customers: ");
+                System.out.print("Enter Customer Count: ");
                 customerCount = scanner.nextInt();
-                scanner.nextLine(); // Consume leftover newline
+                scanner.nextLine(); // Consume newline
                 if (customerCount <= 0) {
-                    System.out.println("Invalid input. Please enter a positive integer.");
+                    System.out.println("Customer Count must be positive.");
                     continue;
                 }
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a positive integer for number of Customers.");
-                scanner.next(); // Clear invalid input
+                System.out.println("Invalid input. Please enter a positive integer.");
+                scanner.next();
             }
         }
 
@@ -151,7 +148,41 @@ public class Main {
         // Start the ticket system with the user-provided configuration
         startTicketSystem(configuration);
 
+        // Thread to listen for 'no' input to stop the system
+        Thread stopThread = new Thread(() -> {
+            Scanner inputScanner = new Scanner(System.in);
+            while (isRunning.get()) {
+                System.out.print("Enter 'no' to stop the ticket system: ");
+                System.out.print("");
+                String input = inputScanner.nextLine();
+                if (input.equalsIgnoreCase("no")) {
+                    Logger.log("Stopping the ticket system...");
+                    isRunning.set(false);
+                    break;
+                }
+            }
+            inputScanner.close();
+        });
+        stopThread.start();
+
+        // Wait for the stopThread to finish
+        try {
+            stopThread.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // Wait for all threads to finish
+        for (Thread thread : mainThreads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
         scanner.close();
+        Logger.log("Program terminated.");
     }
 
     private static void saveConfig(int maxTicketCapacity, int totalTickets, int ticketReleaseRate, int customerRetrievalRate) {
@@ -169,16 +200,24 @@ public class Main {
         // Initialize the ticket pool
         TicketPool ticketPool = new TicketPool(configuration.getTotalTickets(), configuration.getMaxTicketCapacity());
 
+        List<Thread> threads = new ArrayList<>();
+
         // Start vendor threads
         for (int i = 1; i <= configuration.getVendorCount(); i++) {
-            VendorRunnable vendor = new VendorRunnable(i, ticketPool, configuration.getTicketReleaseRate());
-            new Thread(vendor, "Vendor-" + i).start();
+            VendorRunnable vendor = new VendorRunnable(i, ticketPool, configuration.getTicketReleaseRate(), isRunning);
+            Thread vendorThread = new Thread(vendor, "Vendor-" + i);
+            vendorThread.start();
+            threads.add(vendorThread);
         }
 
         // Start customer threads
         for (int i = 1; i <= configuration.getCustomerCount(); i++) {
-            CustomerRunnable customer = new CustomerRunnable(i, ticketPool, configuration.getCustomerRetrievalRate());
-            new Thread(customer, "Customer-" + i).start();
+            CustomerRunnable customer = new CustomerRunnable(i, ticketPool, configuration.getCustomerRetrievalRate(), isRunning);
+            Thread customerThread = new Thread(customer, "Customer-" + i);
+            customerThread.start();
+            threads.add(customerThread);
         }
+
+        mainThreads = threads;
     }
 }

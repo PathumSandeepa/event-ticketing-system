@@ -1,9 +1,11 @@
 package com.backend.ticketing_system.cli;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class CustomerRunnable extends UserRunnable {
 
-    public CustomerRunnable(int customerId, TicketPool ticketPool, int customerRetrievalRate) {
-        super(customerId, ticketPool, customerRetrievalRate);
+    public CustomerRunnable(int customerId, TicketPool ticketPool, int customerRetrievalRate, AtomicBoolean isRunning) {
+        super(customerId, ticketPool, customerRetrievalRate, isRunning);
     }
 
     @Override
